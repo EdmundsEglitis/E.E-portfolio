@@ -1,0 +1,51 @@
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base doc */
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: #0f1114; /* matches the CodePen vibe */
+  color: #fff;
+}
+
+/* --- CodePen sphere layout & look ----------------------------------- */
+.animation-wrapper{
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;              /* behind any content if you add later */
+  pointer-events: none;    /* background only */
+}
+
+.sphere-animation{
+  position: relative;
+  width: 580px;
+  height: 580px;
+  /* centered by the wrapper flexbox */
+}
+
+/* scale to viewport like the pen's fit-to-parent helper */
+.sphere{
+  display:block;
+  width:580px;
+  height:580px;
+}
+
+.sphere path{
+  fill: url(#sphereGradient);
+  stroke-width: 1px;
+  stroke: rgba(80,80,80,.35);
+  backface-visibility: hidden;
+}
+
+@media (min-width: 500px){
+  .sphere path{ stroke-width:.4px; }
+}
+
+/* Hide scrollbars since page is empty */
+html { overflow: hidden; }

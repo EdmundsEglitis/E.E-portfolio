@@ -1,0 +1,41 @@
+[
+  {
+    "slug": "nba-hub",
+    "title": "NBA Hub",
+    "summary": "Players, teams, schedules, and comparisons—built on your NBA data.",
+    "year": 2025,
+    "tags": ["Laravel", "React", "Tailwind", "GSAP", "Framer"],
+    "cover": "/content/landing-page.png",
+    "gallery": ["/content/landing-page.png", "/content/landing-page-phone.png"],
+    "role": "Full-stack",
+    "stack": ["Laravel", "MySQL", "React", "Tailwind", "GSAP"],
+    "kpis": [{"label":"Pages","value":"14"},{"label":"API routes","value":"28"}],
+    "featured": true
+  },
+  {
+    "slug": "orbit-labs",
+    "title": "Orbit Labs",
+    "summary": "Studio site with scroll-driven R3F hero and particles",
+    "year": 2024,
+    "tags": ["React","R3F","GSAP","Framer","Tailwind"],
+    "cover": "/assets/projects/orbit.jpg",
+    "gallery": ["/assets/projects/orbit-1.jpg", "/assets/projects/orbit-2.jpg"],
+    "role": "Creative Dev",
+    "stack": ["React","Tailwind","R3F","GSAP","anime.js"],
+    "kpis": [{"label":"Bounce","value":"18"}, {"label":"Conv.","value":"5"}],
+    "featured": true
+  },
+  {
+    "slug": "signal-viz",
+    "title": "Signal Viz",
+    "summary": "Realtime data visualizations with WebGL",
+    "year": 2023,
+    "tags": ["React","WebGL","R3F","Zustand"],
+    "cover": "/assets/projects/signal.jpg",
+    "gallery": ["/assets/projects/signal-1.jpg"],
+    "role": "Frontend",
+    "stack": ["React","R3F","Zustand"],
+    "kpis": [{"label":"FPS","value":"60"}],
+    "featured": false
+  }
+]
