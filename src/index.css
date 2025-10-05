@@ -1,51 +1,143 @@
-/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Base doc */
-html, body, #root { height: 100%; }
-body {
-  margin: 0;
-  background: #0f1114; /* matches the CodePen vibe */
-  color: #fff;
+/* ---------- Dark tokens (only) ---------- */
+:root{
+  --bg: #0b0f13;
+  --fg: #ffffff;
+  --muted: rgba(255,255,255,.70);
+
+  --fg-strong: #ffffff;
+  --muted-strong: rgba(255,255,255,.88);
+
+  --panel: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.14);
+
+  --ring: rgba(129,140,248,.55);
+  --accent: linear-gradient(90deg, rgba(129,140,248,.95), rgba(168,85,247,.95));
+
+  --btn-primary: rgba(99,102,241,1);
+  --btn-primary-hover: rgba(88,91,236,1);
+  --btn-ghost-hover: rgba(255,255,255,.08);
+
+  --link: rgba(129,140,248,.95);
+  --link-hover: rgba(168,85,247,.95);
+
+  --sphere-stroke: rgba(180,180,180,.26);
+
+  --chip-bg: rgba(255,255,255,.10);
+  --chip-fg: #e5e7eb;
+  --chip-border: rgba(255,255,255,.20);
+  --card-btn-surface: rgba(255,255,255,.14);
+  --card-btn-border: rgba(255,255,255,.22);
 }
 
-/* --- CodePen sphere layout & look ----------------------------------- */
-.animation-wrapper{
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 0;              /* behind any content if you add later */
-  pointer-events: none;    /* background only */
+/* ---------- Base ---------- */
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    margin: 0;
+    color: var(--fg);
+    background: var(--bg);
+    transition: background-color .25s ease, color .25s ease;
+  }
+  html { @apply overflow-x-hidden; }
+
+  a { color: var(--link); }
+  a:hover { color: var(--link-hover); }
 }
 
-.sphere-animation{
-  position: relative;
-  width: 580px;
-  height: 580px;
-  /* centered by the wrapper flexbox */
+/* ---------- Utilities ---------- */
+@layer utilities {
+  .muted { color: var(--muted); }
+  .focus-ring { @apply focus:outline-none; box-shadow: 0 0 0 2px var(--ring); }
+
+  /* Bullet-proof gradient text (fixes purple rectangles) */
+  .text-gradient{
+    background: var(--accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
-/* scale to viewport like the pen's fit-to-parent helper */
-.sphere{
-  display:block;
-  width:580px;
-  height:580px;
+/* ---------- Components ---------- */
+@layer components {
+  .glass {
+    @apply rounded-2xl border backdrop-blur-md;
+    background: var(--glass);
+    border-color: var(--border);
+    transition: background-color .2s ease, border-color .2s ease, box-shadow .2s ease;
+    box-shadow: 0 8px 28px -12px rgba(0,0,0,.25);
+  }
+  .panel {
+    @apply rounded-xl border;
+    background: var(--panel);
+    border-color: var(--border);
+    transition: background-color .2s ease, border-color .2s ease;
+  }
+
+  /* Cards */
+  .card-glass{
+    @apply rounded-2xl border overflow-hidden;
+    background: color-mix(in srgb, var(--bg) 28%, transparent);
+    border-color: var(--border);
+    backdrop-filter: blur(12px) saturate(120%);
+    -webkit-backdrop-filter: blur(12px) saturate(120%);
+  }
+
+  .card-title{
+    color: var(--fg-strong);
+    font-weight: 800;
+    letter-spacing: .01em;
+  }
+  .card-muted{
+    color: var(--muted-strong);
+    font-weight: 500;
+  }
+  .card-chip{
+    background: var(--chip-bg);
+    color: var(--chip-fg);
+    border: 1px solid var(--chip-border);
+    border-radius: 999px;
+    padding: .25rem .5rem;
+    font-size: .75rem;
+    line-height: 1rem;
+  }
+  .card-btn{
+    display: inline-flex; align-items: center; gap:.375rem;
+    padding: .375rem .75rem;
+    border-radius: .5rem;
+    font-size: .875rem;
+    border: 1px solid var(--card-btn-border);
+    background: var(--card-btn-surface);
+    color: var(--fg-strong);
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .card-btn:hover{ filter: brightness(1.06); }
+  .card-btn--ghost{
+    background: transparent;
+    border-color: var(--card-btn-border);
+  }
+  .card-btn--ghost:hover{
+    background: color-mix(in srgb, var(--card-btn-surface) 80%, transparent);
+  }
 }
 
+/* ---------- Background sphere helpers ---------- */
+.anime-bg{ position:fixed; inset:0; z-index:-10; background: var(--bg); }
+.anime-bg__center{ position:absolute; inset:0; display:grid; place-items:center; }
+.anime-bg__frame{ position:relative; width:70vw; max-width:1020px; aspect-ratio:1/1; }
+@media (min-width:768px){ .anime-bg__frame{ width:50vw; } }
+
+.sphere{ display:block; width:100%; height:100%; color: var(--sphere-stroke); }
 .sphere path{
   fill: url(#sphereGradient);
-  stroke-width: 1px;
-  stroke: rgba(80,80,80,.35);
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-opacity: .52;
   backface-visibility: hidden;
 }
-
-@media (min-width: 500px){
-  .sphere path{ stroke-width:.4px; }
-}
-
-/* Hide scrollbars since page is empty */
-html { overflow: hidden; }
+@media (min-width:500px){ .sphere path{ stroke-width:.8; } }

@@ -1,49 +1,26 @@
 // src/App.jsx
 import AnimeBackground from './components/AnimeBackground';
-import { Outlet, useLocation } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 export default function App() {
-  const location = useLocation();
-  const isHome = location.pathname === '/';
-  const curtainRef = useRef(null);
-
-  useEffect(() => {
-    const el = curtainRef.current;
-    if (!el) return;
-
-    const tl = anime.timeline({ autoplay: true });
-    tl.add({
-      targets: el,
-      scaleX: [0, 1],
-      transformOrigin: 'left center',
-      duration: 220,
-      easing: 'easeInQuad',
-    }).add({
-      targets: el,
-      scaleX: [1, 0],
-      transformOrigin: 'right center',
-      duration: 230,
-      easing: 'easeOutQuad',
-      delay: 20,
-    });
-    return () => tl.pause();
-  }, [location.pathname]);
-
   return (
-    <div className="min-h-screen">
-      {/* Background always mounted, fixed and behind content */}
+    // Make the whole app a column so the footer sits at the end
+    <div className="min-h-screen flex flex-col text-white relative">
+      {/* Fixed background sphere behind everything */}
       <AnimeBackground />
 
+      {/* Sticky header stays on top */}
+      <Header />
 
-      {/* optional curtain element if you use it */}
-      <div
-        ref={curtainRef}
-        className="pointer-events-none fixed inset-0 z-50 bg-black"
-        style={{ transform: 'scaleX(0)' }}
-        aria-hidden
-      />
+      {/* Main grows to fill available space so footer sticks to bottom */}
+      <main className="relative z-10 flex-1">
+        <Outlet />
+      </main>
+
+      {/* Compact footer, now reliably at the bottom */}
+      <Footer />
     </div>
   );
 }

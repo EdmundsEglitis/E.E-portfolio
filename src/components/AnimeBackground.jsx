@@ -1,17 +1,20 @@
 // src/components/AnimeBackground.jsx
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import anime from 'animejs';
 
-export default function AnimeBackground() {
+function AnimeBackground() {
   const svgRef = useRef(null);
   const gradRef = useRef(null);
+  const started = useRef(false); // prevent re-init on route changes / StrictMode
 
   useEffect(() => {
     const svg = svgRef.current;
-    if (!svg) return;
+    if (!svg || started.current) return;
+    started.current = true;
 
     const paths = svg.querySelectorAll('path');
 
+    // Breathing shimmer per path
     const perPath = [];
     const breath = anime({
       begin() {
@@ -19,7 +22,7 @@ export default function AnimeBackground() {
           perPath.push(
             anime({
               targets: p,
-              stroke: { value: ['rgba(0, 255, 76, 1)', 'rgba(80,80,80,.35)'], duration: 500 },
+              stroke: { value: ['rgba(99,102,241,1);', 'rgba(255, 255, 255, 0.35)'], duration: 500 },
               translateX: [2, -4],
               translateY: [2, -4],
               easing: 'easeOutQuad',
@@ -30,7 +33,8 @@ export default function AnimeBackground() {
       },
       update(ins) {
         perPath.forEach((a, i) => {
-          const percent = (1 - Math.sin(i * 0.35 + 0.0022 * ins.currentTime)) / 2;
+          // 0..1 sweep (was /1 causing harshness)
+          const percent = (1 - Math.sin(i * 0.35 + 0.0032 * ins.currentTime)) / 2;
           a.seek(a.duration * percent);
         });
       },
@@ -38,22 +42,19 @@ export default function AnimeBackground() {
       autoplay: true,
     });
 
+    // Intro stroke draw
     const intro = anime.timeline({ autoplay: true }).add(
       {
         targets: paths,
-        strokeDashoffset: {
-          value: [anime.setDashoffset, 0],
-          duration: 3900,
-          easing: 'easeInOutCirc',
-          delay: anime.stagger(190, { direction: 'reverse' }),
-        },
-        duration: 2000,
-        delay: anime.stagger(60, { direction: 'reverse' }),
-        easing: 'linear',
+        strokeDashoffset: [anime.setDashoffset, 0],
+        duration: 1900,
+        easing: 'easeInOutCubic',
+
       },
       0
     );
 
+    // Gradient “shadow” drift
     const shadow = anime({
       targets: gradRef.current,
       x1: '25%',
@@ -65,6 +66,7 @@ export default function AnimeBackground() {
       autoplay: true,
     });
 
+    // Pause when tab hidden
     const onVis = () => {
       if (document.hidden) {
         breath.pause();
@@ -77,6 +79,7 @@ export default function AnimeBackground() {
       }
     };
     document.addEventListener('visibilitychange', onVis);
+
     return () => {
       breath.pause();
       intro.pause();
@@ -86,10 +89,9 @@ export default function AnimeBackground() {
   }, []);
 
   return (
-    <div className="fixed inset-0 -z-10 bg-[#0b0f13]">
-      <div className="absolute inset-0 grid place-items-center">
-        {/* +50% on desktop: lg:w-[72vw], larger max width */}
-        <div className="relative w-[70vw] md:w-[50vw] lg:w-[50vw] max-w-[1020px] aspect-square">
+    <div  className="anime-bg">
+      <div className="anime-bg__center">
+        <div className="anime-bg__frame">
           <svg
             ref={svgRef}
             className="absolute inset-0 w-full h-full"
@@ -105,7 +107,7 @@ export default function AnimeBackground() {
               </linearGradient>
             </defs>
 
-            {/* Apply gradient fill to restore shading */}
+            {/* Gradient fill for shading */}
             <g fill="url(#sphereGradient)">
               <path d="M361.604 361.238c-24.407 24.408-51.119 37.27-59.662 28.727-8.542-8.543 4.319-35.255 28.726-59.663 24.408-24.407 51.12-37.269 59.663-28.726 8.542 8.543-4.319 35.255-28.727 59.662z"/>
               <path d="M360.72 360.354c-35.879 35.88-75.254 54.677-87.946 41.985-12.692-12.692 6.105-52.067 41.985-87.947 35.879-35.879 75.254-54.676 87.946-41.984 12.692 12.692-6.105 52.067-41.984 87.946z"/>
@@ -135,3 +137,5 @@ export default function AnimeBackground() {
     </div>
   );
 }
+
+export default memo(AnimeBackground);

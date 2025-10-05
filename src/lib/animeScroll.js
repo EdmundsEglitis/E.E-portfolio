@@ -1,50 +1,24 @@
-// src/lib/animeScroll.js
-import anime from 'animejs';
+// Smooth document scroll progress 0..1 with a low-pass filter
+export function initScrollProgress(onProgress) {
+  let raf, last = 0, smooth = 0;
 
-export function makeScrollScrubber({
-  sectionEl,
-  buildTimeline, // () => anime.timeline({ autoplay:false }) with .add(...) steps
-  startOffset = 0, // px from top of section to start scrubbing
-  endOffset = 0,   // px from bottom of section to end scrubbing
-}) {
-  if (!sectionEl) return { destroy() {} };
+  const tick = (t) => {
+    const dt = (t - last) / 1000 || 0.016;
+    last = t;
 
-  const tl = buildTimeline();
-  let rafId = 0;
-  let lastW = window.innerWidth;
+    const doc = document.documentElement;
+    const max = Math.max(1, (doc.scrollHeight || document.body.scrollHeight) - window.innerHeight);
+    const raw = window.scrollY / max;
 
-  const update = () => {
-    const rect = sectionEl.getBoundingClientRect();
-    const viewH = window.innerHeight;
-    const total = rect.height - startOffset - endOffset + viewH; // extra len while pinned-ish
-    const passed = viewH - (rect.top + startOffset);
-    const p = Math.min(1, Math.max(0, passed / total));
-    tl.seek(p * tl.duration);
-    rafId = requestAnimationFrame(update);
+    // Low-pass filter factor depends on dt to be frame-rate independent
+    const k = 1 - Math.pow(0.001, dt);
+    smooth += (raw - smooth) * k;
+
+    if (onProgress) onProgress(Math.min(1, Math.max(0, smooth)));
+
+    raf = requestAnimationFrame(tick);
   };
 
-  const onResize = () => {
-    if (lastW !== window.innerWidth) {
-      lastW = window.innerWidth;
-      // Recalculate once to avoid stale geometry
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(update);
-    }
-  };
-
-  rafId = requestAnimationFrame(update);
-  window.addEventListener('resize', onResize);
-
-  return {
-    destroy() {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', onResize);
-      tl.pause();
-    },
-    tl,
-  };
-}
-
-export function staggerChildren(query, opts = {}) {
-  return anime.stagger(opts.step ?? 60, { start: 0, ...opts });
+  raf = requestAnimationFrame(tick);
+  return () => cancelAnimationFrame(raf);
 }

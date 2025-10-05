@@ -1,41 +1,127 @@
 [
-  {
-    "slug": "nba-hub",
-    "title": "NBA Hub",
-    "summary": "Players, teams, schedules, and comparisons—built on your NBA data.",
-    "year": 2025,
-    "tags": ["Laravel", "React", "Tailwind", "GSAP", "Framer"],
-    "cover": "/content/landing-page.png",
-    "gallery": ["/content/landing-page.png", "/content/landing-page-phone.png"],
-    "role": "Full-stack",
-    "stack": ["Laravel", "MySQL", "React", "Tailwind", "GSAP"],
-    "kpis": [{"label":"Pages","value":"14"},{"label":"API routes","value":"28"}],
-    "featured": true
-  },
-  {
-    "slug": "orbit-labs",
-    "title": "Orbit Labs",
-    "summary": "Studio site with scroll-driven R3F hero and particles",
-    "year": 2024,
-    "tags": ["React","R3F","GSAP","Framer","Tailwind"],
-    "cover": "/assets/projects/orbit.jpg",
-    "gallery": ["/assets/projects/orbit-1.jpg", "/assets/projects/orbit-2.jpg"],
-    "role": "Creative Dev",
-    "stack": ["React","Tailwind","R3F","GSAP","anime.js"],
-    "kpis": [{"label":"Bounce","value":"18"}, {"label":"Conv.","value":"5"}],
-    "featured": true
-  },
-  {
-    "slug": "signal-viz",
-    "title": "Signal Viz",
-    "summary": "Realtime data visualizations with WebGL",
-    "year": 2023,
-    "tags": ["React","WebGL","R3F","Zustand"],
-    "cover": "/assets/projects/signal.jpg",
-    "gallery": ["/assets/projects/signal-1.jpg"],
-    "role": "Frontend",
-    "stack": ["React","R3F","Zustand"],
-    "kpis": [{"label":"FPS","value":"60"}],
-    "featured": false
-  }
+{
+  "slug": "nba-hub",
+  "title": "NBA/LBS Hub",
+  "summary": "Players, teams, schedules, comparisons — built on NBA data and LBS CRUD.",
+  "year": 2025,
+  "tags": ["Laravel", "Tailwind", "Filament", "CronJobs", "api-data"],
+  "accent": "#7C3AED",
+  "cover": "/content/landing-page.png",
+  "coverMobile": "/content/landing-page-phone.png",
+  "logo": "/content/laravel-2.svg",
+  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/Kvalifikacijas-darbs" },
+
+  "kpis": { "commits": 30},
+
+  "overview": "This website uses NBA data and CRUD system from LBS.\n\nIt provides player, team, game views; comparison tools; and a clean, animated UX.",
+
+  "features": [
+    "Live season data with scheduled sync jobs",
+    "Player/Team compare views with metrics",
+    "Dashboard system that helps administrators maintain the LBS side"
+  ],
+
+  "tech": ["Laravel", "Filament", "Tailwind", "MySQL", "laravels built in CronJobs system"],
+
+  "gallery": [
+    { "src": "/content/screens/Untitled.png", "alt": "Compare NBA teams", "caption": "Compare NBA teams." },
+    { "src": "/content/screens/Untitled2.png", "alt": "Compare NBA players", "caption": "Compare NBA players" },
+    { "src": "/content/screens/Untitled3.png", "alt": "View upcomming NBA games", "caption": "View upcomming NBA games and add them to your google calendar." },
+    { "src": "/content/screens/Untitled4.png", "alt": "Filament admin dashboard", "caption": "Filament admin dashboard" },
+    { "src": "/content/screens/Untitled5.png", "alt": "Cronjob maintained database system that updates every day", "caption": "Cronjob maintained database system that updates nba data daily" }
+  ]
+},
+
+
+{
+  "slug": "Edmunds-portfolio",
+  "title": "Portfolio",
+  "summary": "Fully responsive and animated portfolio using anime.js",
+  "year": 2025,
+  "tags": ["REACT", "Tailwind", "Anime.js", "GSAP", "JS"],
+  "accent": "#7C3AED",
+  "cover": "/content/portfolio landing page.png",
+  "coverMobile": "/content/portfolio landing page.png",
+  "logo": "/content/laravel-2.svg",
+  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/E.E-portfolio" },
+
+  "kpis": { "commits": 2 },
+
+  "overview": "My portfolio showcasing my styling capabilities using anime.js, react and tailwind.",
+
+  "features": [
+    "Admine.js animations featuring a stunning and bold background",
+    "Responsive design"
+  ],
+
+  "tech": ["React", "GSAP", "Tailwind", "Anime.js"],
+
+  "gallery": [
+    { "src": "/content/screens/Untitled13.png", "alt": "Compare NBA teams", "caption": "Compare NBA teams." },
+    { "src": "/content/screens/Untitled14.png", "alt": "Compare NBA players", "caption": "Compare NBA players" },
+    { "src": "/content/screens/Untitled15.png", "alt": "View upcomming NBA games", "caption": "View upcomming NBA games and add them to your google calendar." }
+  ]
+},
+{
+  "slug": "b-klase",
+  "title": "School managment system",
+  "summary": "Laravel website for schools to organise their work just like E-klase",
+  "year": 2025,
+  "tags": ["Laravel", "CSS", "MySql", "JS"],
+  "accent": "#7C3AED",
+  "cover": "/content/eklase landing page.png",
+  "coverMobile": "/content/eklase landing page.png",
+  "logo": "/content/laravel-2.svg",
+  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/eklase" },
+
+  "kpis": { "commits": 11 },
+
+  "overview": "This website is made for schools to inform their students about their upcomming lessons and grades. This is possible due to a CRUD system where the websites administrators can subim all of this information",
+
+  "features": [
+    "A strong CRUD system allowing administrators to create, update or delete lessons, grades and students",
+    "Responsive design making it possible to use all the functions even on portable devices"
+  ],
+
+  "tech": ["Laravel", "CSS", "Breeze", "MySQL", "JS"],
+
+  "gallery": [
+    { "src": "/content/screens/Untitled9.png", "alt": "Administrator panel", "caption": "Administrator panel." },
+    { "src": "/content/screens/Untitled10.png", "alt": "Grade students", "caption": "Grade students." },
+    { "src": "/content/screens/Untitled11.png", "alt": "Create a schedule", "caption": "Create a schedule." },
+    { "src": "/content/screens/Untitled12.png", "alt": "Students view", "caption": "Student dashboard featuring the schedule." }
+  ]
+},
+
+
+{
+  "slug": "all4health",
+  "title": "ALL 4 HEALTH",
+  "summary": "Fitness app that keeps you accountable to the goals you set for yourself",
+  "year": 2025,
+  "tags": ["PHP", "CSS", "HTML", "JS", "MySql"],
+  "accent": "#7C3AED",
+  "cover": "/content/fitness landing page.png",
+  "coverMobile": "/content/fitness landing page.png",
+  "logo": "/content/laravel-2.svg",
+  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/darbs-Veseliba" },
+
+  "kpis": { "commits": 11},
+
+  "overview": "This is a simple fitness website that lets users - create goals for themselves, create workout plans, create exercises in theese workout plans and see all the workouts that the user has logged",
+
+  "features": [
+    "A streak system that checks if the user hasnt missed a goal day that he has intended to workout in.",
+    "A CRUD system for workouts and exercises.",
+    "Pannel to view all the workouts you have completed."
+  ],
+
+  "tech": ["PHP", "HTML", "CSS", "MySQL"],
+
+  "gallery": [
+    { "src": "/content/screens/Untitled6.png", "alt": "Add excercises to workouts", "caption": "Add exercises to your workout." },
+    { "src": "/content/screens/Untitled7.png", "alt": "Log workouts", "caption": "Log that you have compeleted a workout." },
+    { "src": "/content/screens/Untitled8.png", "alt": "Set your goal", "caption": "Set the days that you want to workout" }
+  ]
+}
 ]

@@ -1,83 +1,86 @@
 import { create } from 'zustand';
 
-const THEME_KEY = 'theme';
-const REDUCED_KEY = 'reducedFX';
+const THEME_KEY = 'ui.theme';
+const REDUCED_KEY = 'ui.reducedFX';
 
-const getSystemDark = () =>
-  typeof window !== 'undefined' &&
-  window.matchMedia &&
-  window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-const applyThemeDom = (t) => {
-  if (typeof document === 'undefined') return;
-  const html = document.documentElement;
-  if (t === 'dark') {
-    html.dataset.theme = 'dark';
-    html.classList.add('dark');
-  } else if (t === 'light') {
-    html.dataset.theme = 'light';
-    html.classList.remove('dark');
-  } else {
-    html.dataset.theme = 'system';
-    html.classList.toggle('dark', getSystemDark());
+function getSystemPrefersDark() {
+  try {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  } catch {
+    return false;
   }
-};
+}
 
-export const useUI = create((set, get) => {
-  // Init theme from localStorage (default: system)
-  const storedTheme =
-    (typeof localStorage !== 'undefined' && localStorage.getItem(THEME_KEY)) || 'system';
-  applyThemeDom(storedTheme);
+function getStoredTheme() {
+  try {
+    return localStorage.getItem(THEME_KEY) || 'system';
+  } catch {
+    return 'system';
+  }
+}
 
-  // Init reducedFX from localStorage or prefers-reduced-motion
-  const prefersReduced =
-    typeof window !== 'undefined' &&
-    window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const storedReduced =
-    typeof localStorage !== 'undefined' && localStorage.getItem(REDUCED_KEY);
-  const initialReduced = storedReduced != null ? storedReduced === 'true' : !!prefersReduced;
-
-  // React to system theme changes when in 'system'
-  if (typeof window !== 'undefined') {
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = () => {
-      if (get().theme === 'system') applyThemeDom('system');
-    };
-    try {
-      mql.addEventListener('change', handler);
-    } catch {
-      mql.addListener?.(handler);
+function getStoredReduced() {
+  try {
+    const v = localStorage.getItem(REDUCED_KEY);
+    if (v === null) {
+      // default from media query
+      return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     }
+    return v === 'true';
+  } catch {
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   }
+}
 
-  return {
-    // Required state
-    theme: storedTheme, // 'system' | 'light' | 'dark'
-    reducedFX: initialReduced, // boolean
-    cursorLabel: null, // string | null
+function applyTheme(theme) {
+  const html = document.documentElement;
+  const effective =
+    theme === 'system' ? (getSystemPrefersDark() ? 'dark' : 'light') : theme;
 
-    // Extra internal state for smooth R3F sync (safe to keep)
-    scrollProgress: 0, // 0..1 (GSAP writes -> R3F reads)
+  html.setAttribute('data-theme', effective);
+  if (effective === 'dark') html.classList.add('dark');
+  else html.classList.remove('dark');
+}
 
-    // Actions
-    setTheme: (t) =>
-      set(() => {
-        if (typeof localStorage !== 'undefined') localStorage.setItem(THEME_KEY, t);
-        applyThemeDom(t);
-        return { theme: t };
-      }),
+function persistTheme(theme) {
+  try {
+    localStorage.setItem(THEME_KEY, theme);
+  } catch {}
+}
 
-    toggleReducedFX: () =>
-      set((s) => {
-        const next = !s.reducedFX;
-        if (typeof localStorage !== 'undefined') localStorage.setItem(REDUCED_KEY, String(next));
-        return { reducedFX: next };
-      }),
+function persistReduced(val) {
+  try {
+    localStorage.setItem(REDUCED_KEY, String(val));
+  } catch {}
+}
 
-    setCursorLabel: (label) => set({ cursorLabel: label }),
+// Initialize once
+const initialTheme = getStoredTheme();
+applyTheme(initialTheme);
 
-    setScrollProgress: (p) => set({ scrollProgress: Math.max(0, Math.min(1, p)) }),
-  };
-});
+export const useUI = create((set, get) => ({
+  // state
+  theme: initialTheme, // 'system' | 'light' | 'dark'
+  reducedFX: getStoredReduced(),
+  docProgress: 0, // 0..1
+  routeTransition: false,
+
+  // actions
+  setTheme: (t) => {
+    persistTheme(t);
+    applyTheme(t);
+    set({ theme: t });
+  },
+  toggleReducedFX: () => {
+    const next = !get().reducedFX;
+    persistReduced(next);
+    set({ reducedFX: next });
+  },
+  setDocProgress: (p) => set({ docProgress: Math.max(0, Math.min(1, p)) }),
+  setRouteTransition: (b) => set({ routeTransition: !!b }),
+}));
+
+// Useful for app bootstrap (optional)
+export function initTheme() {
+  applyTheme(getStoredTheme());
+}
