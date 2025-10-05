@@ -10,6 +10,11 @@
   "coverMobile": "/content/landing-page-phone.png",
   "logo": "/content/laravel-2.svg",
   "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/Kvalifikacijas-darbs" },
+    "video": {
+    "type": "file",
+    "src": "/videos/demo.mp4",
+    "poster": "/content/landing-page.png"
+  },
 
   "kpis": { "commits": 30},
 

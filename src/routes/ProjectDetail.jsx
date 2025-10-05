@@ -49,12 +49,20 @@ export default function ProjectDetail() {
     <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
       <BackLink />
 
-      {/* Cover */}
+      {/* Cover (video if provided, else image) */}
       <div
         ref={coverRef}
         className="rounded-xl overflow-hidden border border-white/10 card-glass"
       >
-        <img src={project.cover} alt={`${project.title} cover`} className="w-full h-auto" />
+        {project.video ? (
+          <VideoBlock video={project.video} accent={project.accent} />
+        ) : (
+          <img
+            src={project.cover}
+            alt={`${project.title} cover`}
+            className="w-full h-auto"
+          />
+        )}
       </div>
 
       {/* Title + summary */}
@@ -124,7 +132,6 @@ export default function ProjectDetail() {
       {/* Links */}
       {!!project.links && (
         <section className="mt-10 flex gap-3" data-detail-row>
-
           {project.links.code && (
             <a
               href={project.links.code}
@@ -184,6 +191,115 @@ function splitParas(text = '') {
     .split(/\n{2,}/g)
     .map((s) => s.trim())
     .filter(Boolean);
+}
+
+/* ---------- VideoBlock (autoplay, loop, muted) ---------- */
+/**
+ * Expected shape for project.video (example):
+ * {
+ *   "type": "file" | "youtube" | "vimeo",
+ *   "src": "assets/demo.mp4" | "YOUTUBE_ID_OR_URL" | "VIMEO_ID_OR_URL",
+ *   "poster": "/images/poster.jpg",         // optional (file only)
+ *   "loop": true,                           // optional (default true here)
+ *   "muted": true,                          // optional (default true)
+ *   "controls": false,                      // optional (default false here)
+ *   "caption": "Short video caption"        // optional
+ * }
+ */
+function VideoBlock({ video, accent = '#818cf8' }) {
+  const wrapRef = useRef(null);
+
+  const isFile = video.type === 'file';
+  const isYouTube = video.type === 'youtube';
+  const isVimeo = video.type === 'vimeo';
+
+  // defaults for your “no click, looping” requirement
+  const loop = video.loop ?? true;
+  const muted = video.muted ?? true;
+  const controls = video.controls ?? false;
+
+  useEffect(() => {
+    const tl = anime.timeline({ autoplay: true });
+    tl.add({
+      targets: wrapRef.current,
+      opacity: [0, 1],
+      scale: [0.98, 1],
+      duration: 420,
+      easing: 'easeOutCubic',
+    });
+    return () => tl.pause();
+  }, []);
+
+  const youtubeId = isYouTube ? getYouTubeId(video.src) : null;
+  const vimeoId = isVimeo ? getVimeoId(video.src) : null;
+
+  const youtubeUrl = youtubeId
+    ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&loop=1&playlist=${youtubeId}`
+    : null;
+
+  const vimeoUrl = vimeoId
+    ? `https://player.vimeo.com/video/${vimeoId}?autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0&background=1`
+    : null;
+
+  return (
+    <figure ref={wrapRef} className="relative">
+      {/* 16:9 aspect box */}
+      <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
+        <div className="absolute inset-0">
+          {/* Accent ring */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 rounded-xl"
+            style={{ boxShadow: `inset 0 0 0 2px ${accent}55`, borderRadius: 12 }}
+          />
+
+          {/* Local file */}
+          {isFile && (
+            <video
+              className="w-full h-full object-cover rounded-xl"
+              src={video.src}
+              poster={video.poster}
+              autoPlay
+              muted={muted}
+              loop={loop}
+              playsInline
+              controls={controls}
+            />
+          )}
+
+          {/* YouTube */}
+          {isYouTube && youtubeUrl && (
+            <iframe
+              className="w-full h-full rounded-xl"
+              src={youtubeUrl}
+              title="Project video"
+              allow="autoplay; accelerometer; encrypted-media; picture-in-picture"
+              allowFullScreen
+              frameBorder="0"
+            />
+          )}
+
+          {/* Vimeo */}
+          {isVimeo && vimeoUrl && (
+            <iframe
+              className="w-full h-full rounded-xl"
+              src={vimeoUrl}
+              title="Project video"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+              frameBorder="0"
+            />
+          )}
+        </div>
+      </div>
+
+      {video.caption && (
+        <figcaption className="text-sm opacity-70 mt-2">
+          {video.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
 }
 
 /* ---------- Gallery with anime lightbox ---------- */
@@ -337,4 +453,41 @@ function Gallery({ images, accent = '#818cf8' }) {
       )}
     </>
   );
+}
+
+/* ---------- helpers ---------- */
+
+function getYouTubeId(idOrUrl = '') {
+  // accepts ID or URL
+  if (!idOrUrl) return '';
+  // If it's a clean id
+  if (/^[\w-]{11}$/.test(idOrUrl)) return idOrUrl;
+  // Try to parse from url
+  try {
+    const u = new URL(idOrUrl);
+    if (u.hostname.includes('youtu.be')) {
+      return u.pathname.slice(1);
+    }
+    if (u.searchParams.get('v')) {
+      return u.searchParams.get('v');
+    }
+    // /embed/{id}
+    const parts = u.pathname.split('/');
+    const i = parts.indexOf('embed');
+    if (i >= 0 && parts[i + 1]) return parts[i + 1];
+  } catch {}
+  return '';
+}
+
+function getVimeoId(idOrUrl = '') {
+  if (!idOrUrl) return '';
+  // numeric id or url
+  if (/^\d+$/.test(idOrUrl)) return idOrUrl;
+  try {
+    const u = new URL(idOrUrl);
+    const parts = u.pathname.split('/').filter(Boolean);
+    // last path segment usually id
+    return parts[parts.length - 1] || '';
+  } catch {}
+  return '';
 }
