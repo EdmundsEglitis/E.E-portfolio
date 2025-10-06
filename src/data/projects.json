@@ -5,11 +5,11 @@
   "summary": "Players, teams, schedules, comparisons — built on NBA data and LBS CRUD.",
   "year": 2025,
   "tags": ["Laravel", "Tailwind", "Filament", "CronJobs", "api-data"],
-  "accent": "#7C3AED",
+  "accent": "#d95b25",
   "cover": "/content/landing-page.png",
   "coverMobile": "/content/landing-page-phone.png",
   "logo": "/content/laravel-2.svg",
-  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/Kvalifikacijas-darbs" },
+  "links": { "code": "https://github.com/EdmundsEglitis/Kvalifikacijas-darbs" },
     "video": {
     "type": "file",
     "src": "/videos/demo.mp4",
@@ -41,14 +41,14 @@
 {
   "slug": "Edmunds-portfolio",
   "title": "Portfolio",
-  "summary": "Fully responsive and animated portfolio using anime.js",
+  "summary": "A fully custom and responsive portfolio using react, anime.js and tailwind ",
   "year": 2025,
-  "tags": ["REACT", "Tailwind", "Anime.js", "GSAP", "JS"],
-  "accent": "#7C3AED",
+  "tags": ["REACT", "Tailwind", "Anime.js", "GSAP"],
+  "accent": "#bbd636",
   "cover": "/content/portfolio landing page.png",
   "coverMobile": "/content/portfolio landing page.png",
   "logo": "/content/laravel-2.svg",
-  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/E.E-portfolio" },
+  "links": { "code": "https://github.com/EdmundsEglitis/E.E-portfolio" },
 
   "kpis": { "commits": 2 },
 
@@ -67,49 +67,18 @@
     { "src": "/content/screens/Untitled15.png", "alt": "View upcomming NBA games", "caption": "View upcomming NBA games and add them to your google calendar." }
   ]
 },
-{
-  "slug": "b-klase",
-  "title": "School managment system",
-  "summary": "Laravel website for schools to organise their work just like E-klase",
-  "year": 2025,
-  "tags": ["Laravel", "CSS", "MySql", "JS"],
-  "accent": "#7C3AED",
-  "cover": "/content/eklase landing page.png",
-  "coverMobile": "/content/eklase landing page.png",
-  "logo": "/content/laravel-2.svg",
-  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/eklase" },
-
-  "kpis": { "commits": 11 },
-
-  "overview": "This website is made for schools to inform their students about their upcomming lessons and grades. This is possible due to a CRUD system where the websites administrators can subim all of this information",
-
-  "features": [
-    "A strong CRUD system allowing administrators to create, update or delete lessons, grades and students",
-    "Responsive design making it possible to use all the functions even on portable devices"
-  ],
-
-  "tech": ["Laravel", "CSS", "Breeze", "MySQL", "JS"],
-
-  "gallery": [
-    { "src": "/content/screens/Untitled9.png", "alt": "Administrator panel", "caption": "Administrator panel." },
-    { "src": "/content/screens/Untitled10.png", "alt": "Grade students", "caption": "Grade students." },
-    { "src": "/content/screens/Untitled11.png", "alt": "Create a schedule", "caption": "Create a schedule." },
-    { "src": "/content/screens/Untitled12.png", "alt": "Students view", "caption": "Student dashboard featuring the schedule." }
-  ]
-},
-
 
 {
   "slug": "all4health",
   "title": "ALL 4 HEALTH",
   "summary": "Fitness app that keeps you accountable to the goals you set for yourself",
-  "year": 2025,
+  "year": 2024,
   "tags": ["PHP", "CSS", "HTML", "JS", "MySql"],
-  "accent": "#7C3AED",
+  "accent": "#36d689",
   "cover": "/content/fitness landing page.png",
   "coverMobile": "/content/fitness landing page.png",
   "logo": "/content/laravel-2.svg",
-  "links": { "live": "#", "code": "https://github.com/EdmundsEglitis/darbs-Veseliba" },
+  "links": { "code": "https://github.com/EdmundsEglitis/darbs-Veseliba" },
 
   "kpis": { "commits": 11},
 
@@ -128,5 +97,36 @@
     { "src": "/content/screens/Untitled7.png", "alt": "Log workouts", "caption": "Log that you have compeleted a workout." },
     { "src": "/content/screens/Untitled8.png", "alt": "Set your goal", "caption": "Set the days that you want to workout" }
   ]
+},
+{
+  "slug": "b-klase",
+  "title": "School managment system",
+  "summary": "Laravel website for schools to organise their work, create groups, grades and schedules just like E-klase",
+  "year": 2023,
+  "tags": ["Laravel", "CSS", "MySql", "JS"],
+  "accent": "#428aed",
+  "cover": "/content/eklase landing page.png",
+  "coverMobile": "/content/eklase landing page.png",
+  "logo": "/content/laravel-2.svg",
+  "links": { "code": "https://github.com/EdmundsEglitis/eklase" },
+
+  "kpis": { "commits": 11 },
+
+  "overview": "This website is made for schools to inform their students about their upcomming lessons and grades. This is possible due to a CRUD system where the websites administrators can subim all of this information",
+
+  "features": [
+    "A strong CRUD system allowing administrators to create, update or delete lessons, grades and students",
+    "Responsive design making it possible to use all the functions even on portable devices"
+  ],
+
+  "tech": ["Laravel", "CSS", "Breeze", "MySQL", "JS"],
+
+  "gallery": [
+    { "src": "/content/screens/Untitled9.png", "alt": "Administrator panel", "caption": "Administrator panel." },
+    { "src": "/content/screens/Untitled10.png", "alt": "Grade students", "caption": "Grade students." },
+    { "src": "/content/screens/Untitled11.png", "alt": "Create a schedule", "caption": "Create a schedule." },
+    { "src": "/content/screens/Untitled12.png", "alt": "Students view", "caption": "Student dashboard featuring the schedule." }
+  ]
 }
+
 ]

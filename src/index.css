@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ---------- Dark tokens (only) ---------- */
+
 :root{
   --bg: #0b0f13;
   --fg: #ffffff;
@@ -34,7 +34,6 @@
   --card-btn-border: rgba(255,255,255,.22);
 }
 
-/* ---------- Base ---------- */
 @layer base {
   html, body, #root { height: 100%; }
   body {
@@ -49,12 +48,11 @@
   a:hover { color: var(--link-hover); }
 }
 
-/* ---------- Utilities ---------- */
+
 @layer utilities {
   .muted { color: var(--muted); }
   .focus-ring { @apply focus:outline-none; box-shadow: 0 0 0 2px var(--ring); }
 
-  /* Bullet-proof gradient text (fixes purple rectangles) */
   .text-gradient{
     background: var(--accent);
     -webkit-background-clip: text;
@@ -63,7 +61,6 @@
   }
 }
 
-/* ---------- Components ---------- */
 @layer components {
   .glass {
     @apply rounded-2xl border backdrop-blur-md;
@@ -79,7 +76,6 @@
     transition: background-color .2s ease, border-color .2s ease;
   }
 
-  /* Cards */
   .card-glass{
     @apply rounded-2xl border overflow-hidden;
     background: color-mix(in srgb, var(--bg) 28%, transparent);
@@ -126,7 +122,6 @@
   }
 }
 
-/* ---------- Background sphere helpers ---------- */
 .anime-bg{ position:fixed; inset:0; z-index:-10; background: var(--bg); }
 .anime-bg__center{ position:absolute; inset:0; display:grid; place-items:center; }
 .anime-bg__frame{ position:relative; width:70vw; max-width:1020px; aspect-ratio:1/1; }

@@ -7,7 +7,6 @@ export default function ProjectCard({ project, index = 0 }) {
   const imgRef = useRef(null);
   const sheenRef = useRef(null);
 
-  // Reveal on enter (softer + shadow pop)
   useEffect(() => {
     const el = cardRef.current;
     if (!el) return;
@@ -48,7 +47,6 @@ export default function ProjectCard({ project, index = 0 }) {
     return () => io.disconnect();
   }, [index]);
 
-  // Hover interactions: tilt, parallax, sheen, lift/glow
   useEffect(() => {
     const el = cardRef.current;
     const img = imgRef.current;
@@ -60,10 +58,10 @@ export default function ProjectCard({ project, index = 0 }) {
     function onMove(e) {
       if (!pointerInside) return;
       const r = el.getBoundingClientRect();
-      const nx = (e.clientX - r.left) / r.width - 0.5; // -0.5..0.5
+      const nx = (e.clientX - r.left) / r.width - 0.5; 
       const ny = (e.clientY - r.top) / r.height - 0.5;
 
-      // Smooth tilt (less twitchy)
+
       anime({
         targets: el,
         rotateY: nx * 9,
@@ -73,7 +71,7 @@ export default function ProjectCard({ project, index = 0 }) {
         easing: 'easeOutCubic',
       });
 
-      // Image parallax + gentle zoom
+
       anime({
         targets: img,
         translateX: nx * 10,
@@ -83,7 +81,6 @@ export default function ProjectCard({ project, index = 0 }) {
         easing: 'easeOutCubic',
       });
 
-      // Follow-up sheen drift (subtle, after first sweep)
       const offset = (e.clientX - r.left) / r.width;
       sheen.style.transform = `translateX(${(offset - 0) * 160}%) rotate(0deg)`;
     }
@@ -91,7 +88,7 @@ export default function ProjectCard({ project, index = 0 }) {
     function onEnter(e) {
       pointerInside = true;
 
-      // lift + glow pop
+
       anime({
         targets: el,
         translateY: -3,
@@ -104,7 +101,7 @@ export default function ProjectCard({ project, index = 0 }) {
         easing: 'easeOutCubic',
       });
 
-      // image initial zoom
+
       anime({
         targets: img,
         scale: 1.04,
@@ -112,7 +109,7 @@ export default function ProjectCard({ project, index = 0 }) {
         easing: 'easeOutCubic',
       });
 
-      // one-time sheen sweep across (eye-catching but quick)
+
       const r = el.getBoundingClientRect();
       const startX = -120;
       const endX = 300;
@@ -124,7 +121,7 @@ export default function ProjectCard({ project, index = 0 }) {
         duration: 420,
         easing: 'easeOutCubic',
         update: (ins) => {
-          const p = ins.progress / 100; // 0..1
+          const p = ins.progress / 100; 
           const x = startX + (endX - startX) * p;
           sheen.style.transform = `translateX(${x}%) rotate(0deg)`;
         },
@@ -136,7 +133,6 @@ export default function ProjectCard({ project, index = 0 }) {
     function onLeave() {
       pointerInside = false;
 
-      // elastic settle back (softer than a snap)
       anime({
         targets: el,
         rotateX: 0,

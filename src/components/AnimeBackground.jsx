@@ -1,11 +1,11 @@
-// src/components/AnimeBackground.jsx
+
 import { useEffect, useRef, memo } from 'react';
 import anime from 'animejs';
 
 function AnimeBackground() {
   const svgRef = useRef(null);
   const gradRef = useRef(null);
-  const started = useRef(false); // prevent re-init on route changes / StrictMode
+  const started = useRef(false); 
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -14,7 +14,7 @@ function AnimeBackground() {
 
     const paths = svg.querySelectorAll('path');
 
-    // Breathing shimmer per path
+
     const perPath = [];
     const breath = anime({
       begin() {
@@ -33,7 +33,6 @@ function AnimeBackground() {
       },
       update(ins) {
         perPath.forEach((a, i) => {
-          // 0..1 sweep (was /1 causing harshness)
           const percent = (1 - Math.sin(i * 0.35 + 0.0032 * ins.currentTime)) / 2;
           a.seek(a.duration * percent);
         });
@@ -42,7 +41,6 @@ function AnimeBackground() {
       autoplay: true,
     });
 
-    // Intro stroke draw
     const intro = anime.timeline({ autoplay: true }).add(
       {
         targets: paths,
@@ -54,7 +52,6 @@ function AnimeBackground() {
       0
     );
 
-    // Gradient “shadow” drift
     const shadow = anime({
       targets: gradRef.current,
       x1: '25%',
@@ -66,7 +63,6 @@ function AnimeBackground() {
       autoplay: true,
     });
 
-    // Pause when tab hidden
     const onVis = () => {
       if (document.hidden) {
         breath.pause();

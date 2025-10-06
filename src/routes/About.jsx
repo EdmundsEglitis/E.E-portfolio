@@ -5,12 +5,11 @@ import anime from 'animejs';
 function SkillCard({ src, alt }) {
   const cardRef = useRef(null);
 
-  // Per-card tilt using anime; smooth and bounded
   const onMove = (e) => {
     const el = cardRef.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;  // -0.5..0.5
+    const x = (e.clientX - r.left) / r.width - 0.5;
     const y = (e.clientY - r.top) / r.height - 0.5;
 
     anime({
@@ -56,7 +55,6 @@ export default function About() {
     const reduced =
       window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
 
-    // Entrance reveal
     const tl = anime.timeline({ autoplay: true });
     tl.add({
       targets: '[data-underline]',
@@ -78,7 +76,7 @@ export default function About() {
       )
       .add(
         {
-          targets: '.skill-logo',
+          targets: ['.skill-logo', '.gh-shot'],
           opacity: [0, 1],
           scale: [0.92, 1],
           delay: anime.stagger(55),
@@ -88,7 +86,6 @@ export default function About() {
         '-=100'
       );
 
-    // Soft glow shimmer (skip when user prefers reduced motion)
     let shimmer;
     if (!reduced) {
       shimmer = anime({
@@ -118,50 +115,31 @@ export default function About() {
 
   return (
     <main className="relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-20">
-      {/* Glass card 1 */}
+      {/* Intro */}
       <section className="glass p-6 sm:p-8" data-row>
         <header className="mb-6">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
             About
           </h1>
-          <span
-            data-underline
-            className="underline-accent"
-            aria-hidden
-          />
+          <span data-underline className="underline-accent" aria-hidden />
         </header>
 
         <p className="opacity-90 leading-relaxed">
-          <strong>I am a junior full-stack developer</strong> specializing in
+          <strong>Hi my name is Edmunds am a junior full-stack developer</strong> specializing in
           <span className="text-indigo-300"> Laravel</span> +{' '}
-          <span className="text-sky-300">React</span>, who loves bold, animated
-          design. I focus on intuitive UI, clean code, and fast-loading
-          experiences that feel alive.
+          <span className="text-sky-300">React</span>, who loves what he does and is excited to take his programming skills to the next level. Curently I have 43 github repositorys where I have learned a collection of things going from the basics to fully dynamic websites. I also have a drive that pushes me to work hard and to be the best version of myself every day.
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            to="/projects"
-            className="btn-primary"
-          >
-            View Projects
-          </Link>
-          <Link
-            to="/contact"
-            className="btn-ghost"
-          >
-            Contact
-          </Link>
+          <Link to="/projects" className="btn-primary">View Projects</Link>
+          <Link to="/contact" className="btn-ghost">Contact</Link>
         </div>
       </section>
 
-      {/* Glass card 2 — skills */}
+      {/* Core stack */}
       <section className="glass p-6 sm:p-8 mt-6" data-row>
         <h2 className="text-xl font-semibold mb-4">Core Stack</h2>
-        <div
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5"
-          aria-label="Technologies"
-        >
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-5" aria-label="Technologies">
           <SkillCard src="/content/laravel-2.svg" alt="Laravel" />
           <SkillCard src="/content/react-svgrepo-com.svg" alt="React" />
           <SkillCard src="/content/git-icon-logo-svgrepo-com.svg" alt="Git" />
@@ -170,29 +148,56 @@ export default function About() {
         </div>
       </section>
 
-      {/* Glass card 3 — highlights */}
+      {/* GitHub preview */}
       <section className="glass p-6 sm:p-8 mt-6" data-row>
-        <h2 className="text-xl font-semibold mb-4">Highlights</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold">GitHub</h2>
+          <a
+            href="https://github.com/EdmundsEglitis"
+            target="_blank"
+            rel="noreferrer"
+            className="card-btn"
+            aria-label="Open my GitHub profile"
+          >
+            View Profile
+          </a>
+        </div>
+
+        <a
+          href="https://github.com/EdmundsEglitis"
+          target="_blank"
+          rel="noreferrer"
+          className="block rounded-2xl overflow-hidden border border-white/10 card-glass focus-ring"
+          title="EdmundsEglitis on GitHub"
+        >
+          <img
+            src="/content/github.png"
+            alt="GitHub profile preview"
+            className="gh-shot w-full h-auto opacity-0"
+            loading="lazy"
+          />
+        </a>
+      </section>
+
+      {/* Highlights */}
+      <section className="glass p-6 sm:p-8 mt-6" data-row>
+        <h2 className="text-xl font-semibold mb-4">My highlights</h2>
         <ol className="relative ml-2 pl-6 space-y-5">
           <li className="relative">
             <span className="dot dot-indigo" />
             <p className="font-medium">Animated portfolio with anime.js</p>
-            <p className="text-sm opacity-80">
-              A polished portfolio showing off my skills.
-            </p>
+            <p className="text-sm opacity-80">A polished portfolio showing off my skills.</p>
           </li>
           <li className="relative">
             <span className="dot dot-emerald" />
             <p className="font-medium">Laravel + React apps</p>
-            <p className="text-sm opacity-80">
-              Complete dynamic websites featuring CRUD systems.
-            </p>
+            <p className="text-sm opacity-80">Complete dynamic websites featuring CRUD systems.</p>
           </li>
           <li className="relative">
             <span className="dot dot-sky" />
             <p className="font-medium">Design-driven thinking</p>
             <p className="text-sm opacity-80">
-              Currently have found a calling for UI/UX because thats the only thing ai seems to struggle with.
+              I have always admired well put toghether web sites, so currently im learning on how to make them myself by stepping up my design and animation skills.
             </p>
           </li>
         </ol>

@@ -2,9 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import anime from 'animejs';
 import { useUI } from '../store/uiStore';
 
-// 🔧 Set your contact info here:
 const EMAIL = 'edmunds3011@gmail.com';
-const PHONE = '+37120223727'; // ← replace with your real number (E.164 or local format)
+const PHONE = '+37120223727'; 
 
 export default function Contact() {
   const reducedFX = useUI((s) => s.reducedFX);
@@ -13,11 +12,11 @@ export default function Contact() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
 
-  // Split into characters to stagger on enter
+
   const emailChars = useMemo(() => EMAIL.split(''), []);
   const phoneChars = useMemo(() => PHONE.split(''), []);
 
-  // Polyfill createDrawable (JS-safe, idempotent)
+
   if (!anime.createDrawable) {
     anime.createDrawable = function (selectorOrEls) {
       const targets =
@@ -34,7 +33,6 @@ export default function Contact() {
   useEffect(() => {
     document.title = 'Contact — Edmunds Eglītis';
 
-    // Entrance timeline
     const tl = anime.timeline({ autoplay: true });
     tl.add({
       targets: '.contact-card',
@@ -66,7 +64,6 @@ export default function Contact() {
         '-=120'
       );
 
-    // Envelope flap loop
     let loop;
     if (!reducedFX && flapRef.current) {
       const flap = flapRef.current;
@@ -82,7 +79,6 @@ export default function Contact() {
       });
     }
 
-    // Pause loops when hidden
     const onVis = () => (document.hidden ? loop && loop.pause() : loop && loop.play());
     document.addEventListener('visibilitychange', onVis);
 
@@ -100,7 +96,7 @@ export default function Contact() {
       popConfetti(anchorSelector);
       setTimeout(() => setFn(false), 1200);
     } catch {
-      // ignore clipboard errors
+
     }
   }
 
@@ -119,7 +115,7 @@ export default function Contact() {
       s.className = 'absolute left-1/2 top-1/2 block';
       s.style.width = '2px';
       s.style.height = '8px';
-      s.style.background = 'rgba(99,102,241,.9)'; // indigo
+      s.style.background = 'rgba(99,102,241,.9)';
       s.style.borderRadius = '1px';
       s.style.transformOrigin = 'center bottom';
       host.appendChild(s);
@@ -166,12 +162,12 @@ export default function Contact() {
           <p className="muted mt-1">Best way to reach me is by email or phone.</p>
         </header>
 
-        {/* Envelope visual */}
+
         <div className="relative mb-6">
           <Envelope flapRef={flapRef} envelopeRef={envelopeRef} />
         </div>
 
-        {/* Email display */}
+
         <div className="space-y-3">
           <div
             id="email-burst-anchor"
@@ -203,10 +199,9 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Divider */}
         <div className="my-6 h-px w-full bg-white/10" aria-hidden="true" />
 
-        {/* Phone display */}
+
         <div className="space-y-3">
           <div
             id="phone-burst-anchor"
@@ -241,14 +236,13 @@ export default function Contact() {
         </div>
 
         <p className="text-xs opacity-60 mt-5">
-          Tip: copy the address/number or use the quick actions to start your message instantly.
+          copy the email/number or use the buttons to start your message instantly.
         </p>
       </section>
     </main>
   );
 }
 
-/* ---------- Envelope SVG with animated flap ---------- */
 function Envelope({ flapRef, envelopeRef }) {
   useEffect(() => {
     if (flapRef.current) {
@@ -267,13 +261,13 @@ function Envelope({ flapRef, envelopeRef }) {
       strokeWidth="2"
       aria-hidden="true"
     >
-      {/* body */}
+
       <rect x="20" y="40" width="200" height="100" rx="12" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.18)" />
-      {/* letter */}
+
       <rect x="32" y="48" width="176" height="84" rx="8" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.14)" />
-      {/* inner chevron */}
+
       <path d="M24 56 L120 116 L216 56" stroke="rgba(255,255,255,.25)" />
-      {/* flap (animated) */}
+
       <path
         ref={flapRef}
         d="M24 56 L120 16 L216 56 L216 56"

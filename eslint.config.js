@@ -1,9 +1,8 @@
-// eslint.config.js
 import js from '@eslint/js'
 import react from 'eslint-plugin-react'
 import hooks from 'eslint-plugin-react-hooks'
 import prettier from 'eslint-config-prettier'
-import globals from 'globals'             // <-- add this
+import globals from 'globals'         
 
 export default [
   js.configs.recommended,
@@ -14,7 +13,7 @@ export default [
       ecmaVersion: 2023,
       sourceType: 'module',
       parserOptions: { ecmaFeatures: { jsx: true } },
-      globals: { ...globals.browser }     // <-- browser globals (window, document, etc.)
+      globals: { ...globals.browser }     
     },
     plugins: { react, 'react-hooks': hooks },
     settings: { react: { version: 'detect' } },

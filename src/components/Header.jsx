@@ -9,7 +9,7 @@ export default function Header() {
   const docProgress = useUI((s) => s.docProgress);
   const [open, setOpen] = useState(false);
 
-  // Top progress bar animation
+
   useEffect(() => {
     const el = barRef.current;
     if (!el) return;
@@ -21,7 +21,7 @@ export default function Header() {
     });
   }, [docProgress]);
 
-  // underline hover/focus tracker
+
   useEffect(() => {
     const ul = underlineRef.current;
     if (!ul) return;
@@ -68,19 +68,18 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-40 backdrop-blur bg-black/30 border-b border-white/10">
-      {/* Top progress bar */}
+
       <div className="h-0.5 bg-indigo-500" ref={barRef} style={{ width: '0%' }} aria-hidden />
 
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
         <Link to="/" className="font-bold">Edmunds</Link>
 
-        {/* Desktop nav */}
         <nav id="primary-nav" className="ml-auto hidden sm:flex relative items-center gap-2">
           <NavLinkPill to="/" label="Home" />
           <NavLinkPill to="/projects" label="Projects" />
           <NavLinkPill to="/about" label="About" />
           <NavLinkPill to="/contact" label="Contact" />
-          {/* underline */}
+
           <span
             ref={underlineRef}
             className="pointer-events-none absolute -bottom-1 left-0 h-[2px] rounded bg-white/60 opacity-0"
@@ -88,7 +87,6 @@ export default function Header() {
           />
         </nav>
 
-        {/* Mobile menu button */}
         <button
           className="sm:hidden ml-auto card-btn focus-ring"
           aria-expanded={open ? 'true' : 'false'}
@@ -98,7 +96,6 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile nav panel */}
       <div
         className={`sm:hidden overflow-hidden transition-[max-height] duration-300 ${open ? 'max-h-64' : 'max-h-0'}`}
         aria-hidden={open ? 'false' : 'true'}

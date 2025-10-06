@@ -12,7 +12,6 @@ import anime from 'animejs';
 import { useUI, initTheme } from './store/uiStore';
 import { initScrollProgress } from './lib/animeScroll';
 
-// Polyfill createDrawable for anime.js (idempotent)
 if (!anime.createDrawable) {
   anime.createDrawable = function (selectorOrEls) {
     const targets =
@@ -26,7 +25,6 @@ if (!anime.createDrawable) {
   };
 }
 
-// Initialize theme on boot
 initTheme();
 
 const router = createBrowserRouter([
@@ -46,6 +44,6 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<RouterProvider router={router} />);
 
-// Start doc progress loop for header bar
+
 const stop = initScrollProgress((p) => useUI.getState().setDocProgress(p));
 window.addEventListener('beforeunload', () => stop && stop());

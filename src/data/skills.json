@@ -1,4 +1,0 @@
-[
-  { "group": "Languages", "items": [ { "name": "JavaScript", "level": 4 }, { "name": "TypeScript", "level": 3 } ] },
-  { "group": "Frameworks", "items": [ { "name": "React", "level": 4 }, { "name": "Node.js", "level": 3 } ] }
-]

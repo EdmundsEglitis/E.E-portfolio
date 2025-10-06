@@ -193,19 +193,7 @@ function splitParas(text = '') {
     .filter(Boolean);
 }
 
-/* ---------- VideoBlock (autoplay, loop, muted) ---------- */
-/**
- * Expected shape for project.video (example):
- * {
- *   "type": "file" | "youtube" | "vimeo",
- *   "src": "assets/demo.mp4" | "YOUTUBE_ID_OR_URL" | "VIMEO_ID_OR_URL",
- *   "poster": "/images/poster.jpg",         // optional (file only)
- *   "loop": true,                           // optional (default true here)
- *   "muted": true,                          // optional (default true)
- *   "controls": false,                      // optional (default false here)
- *   "caption": "Short video caption"        // optional
- * }
- */
+
 function VideoBlock({ video, accent = '#818cf8' }) {
   const wrapRef = useRef(null);
 
@@ -213,7 +201,7 @@ function VideoBlock({ video, accent = '#818cf8' }) {
   const isYouTube = video.type === 'youtube';
   const isVimeo = video.type === 'vimeo';
 
-  // defaults for your “no click, looping” requirement
+
   const loop = video.loop ?? true;
   const muted = video.muted ?? true;
   const controls = video.controls ?? false;
@@ -243,17 +231,17 @@ function VideoBlock({ video, accent = '#818cf8' }) {
 
   return (
     <figure ref={wrapRef} className="relative">
-      {/* 16:9 aspect box */}
+
       <div className="relative w-full" style={{ paddingTop: '56.25%' }}>
         <div className="absolute inset-0">
-          {/* Accent ring */}
+
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 rounded-xl"
             style={{ boxShadow: `inset 0 0 0 2px ${accent}55`, borderRadius: 12 }}
           />
 
-          {/* Local file */}
+
           {isFile && (
             <video
               className="w-full h-full object-cover rounded-xl"
@@ -267,7 +255,6 @@ function VideoBlock({ video, accent = '#818cf8' }) {
             />
           )}
 
-          {/* YouTube */}
           {isYouTube && youtubeUrl && (
             <iframe
               className="w-full h-full rounded-xl"
@@ -279,7 +266,7 @@ function VideoBlock({ video, accent = '#818cf8' }) {
             />
           )}
 
-          {/* Vimeo */}
+
           {isVimeo && vimeoUrl && (
             <iframe
               className="w-full h-full rounded-xl"
@@ -302,7 +289,7 @@ function VideoBlock({ video, accent = '#818cf8' }) {
   );
 }
 
-/* ---------- Gallery with anime lightbox ---------- */
+
 
 function Gallery({ images, accent = '#818cf8' }) {
   const [open, setOpen] = useState(false);
@@ -414,7 +401,6 @@ function Gallery({ images, accent = '#818cf8' }) {
               </figcaption>
             )}
 
-            {/* Controls */}
             <div className="absolute inset-x-0 -top-12 flex items-center justify-between px-2">
               <button
                 type="button"
@@ -442,7 +428,7 @@ function Gallery({ images, accent = '#818cf8' }) {
               </button>
             </div>
 
-            {/* Accent ring */}
+
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 rounded-xl"
@@ -455,14 +441,14 @@ function Gallery({ images, accent = '#818cf8' }) {
   );
 }
 
-/* ---------- helpers ---------- */
+
 
 function getYouTubeId(idOrUrl = '') {
-  // accepts ID or URL
+
   if (!idOrUrl) return '';
-  // If it's a clean id
+
   if (/^[\w-]{11}$/.test(idOrUrl)) return idOrUrl;
-  // Try to parse from url
+
   try {
     const u = new URL(idOrUrl);
     if (u.hostname.includes('youtu.be')) {
@@ -471,7 +457,7 @@ function getYouTubeId(idOrUrl = '') {
     if (u.searchParams.get('v')) {
       return u.searchParams.get('v');
     }
-    // /embed/{id}
+
     const parts = u.pathname.split('/');
     const i = parts.indexOf('embed');
     if (i >= 0 && parts[i + 1]) return parts[i + 1];
@@ -481,12 +467,11 @@ function getYouTubeId(idOrUrl = '') {
 
 function getVimeoId(idOrUrl = '') {
   if (!idOrUrl) return '';
-  // numeric id or url
+
   if (/^\d+$/.test(idOrUrl)) return idOrUrl;
   try {
     const u = new URL(idOrUrl);
     const parts = u.pathname.split('/').filter(Boolean);
-    // last path segment usually id
     return parts[parts.length - 1] || '';
   } catch {}
   return '';
